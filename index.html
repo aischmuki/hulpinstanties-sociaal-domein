@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="version" content="1.1.0">
+<meta name="description" content="Interactief overzicht van hulpinstanties, rollen en samenwerkingen in het Nederlandse sociaal domein.">
 <title>Hulpinstanties — Sociaal Domein</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -89,6 +91,43 @@ header p{font-size:.87rem;color:#b0a0a6;font-weight:300;max-width:500px;line-hei
 .si{width:100%;max-width:340px;font-family:var(--ss);font-size:.82rem;padding:7px 12px;border:1.5px solid var(--bd);border-radius:6px;background:var(--warm);color:var(--ink);outline:none;transition:border-color .18s}
 .si:focus{border-color:var(--rose)}.si::placeholder{color:var(--mu)}
 @media(max-width:700px){header,.leg,.filt,.main{padding-left:16px;padding-right:16px}header h1{font-size:1.85rem}.tabnav{padding:0 16px}.phg{grid-template-columns:repeat(4,1fr)}}
+/* GRAPH */
+#graph-wrap{background:var(--ink);border-radius:10px;height:520px;margin-bottom:14px;position:relative;overflow:hidden}
+#graph-svg{width:100%;height:100%}
+#g-detail{background:var(--warm);border:1px solid var(--bd);border-radius:10px;padding:16px 20px;font-size:.82rem;color:var(--mu);line-height:1.65}
+#g-detail h3{font-family:var(--sf);font-size:1.15rem;font-weight:600;color:var(--ink);margin-bottom:5px}
+#g-detail .gbadges{display:flex;gap:4px;margin-bottom:7px;flex-wrap:wrap}
+#g-detail .gdesc{color:var(--ink-m);margin-bottom:4px}
+#g-detail .gcl{font-size:.63rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--rose);margin:8px 0 5px;display:block}
+#g-detail .gclist{display:flex;flex-wrap:wrap;gap:4px}
+#g-detail .gobs{background:var(--rose-f);border-left:3px solid var(--rose);border-radius:0 6px 6px 0;padding:8px 11px;font-style:italic;color:var(--ink-m);margin-top:10px;font-size:.79rem}
+.gnote{font-size:.72rem;color:var(--mu);text-align:center;padding:6px 0 12px;font-style:italic}
+/* FOOTER */
+footer{background:var(--ink);color:#b0a0a6;padding:16px 40px;font-size:.75rem;font-family:var(--ss)}
+.foot-i{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.foot-v{background:var(--rose);color:#fff;font-size:.66rem;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;flex-shrink:0}
+.foot-btn{background:none;border:none;color:#b0a0a6;cursor:pointer;font-size:.75rem;font-family:var(--ss);text-decoration:underline;padding:0;transition:color .15s}
+.foot-btn:hover{color:#fff}
+.foot-dot{opacity:.35}
+/* CHANGELOG MODAL */
+.cl-ov{display:none;position:fixed;inset:0;background:rgba(30,20,24,.78);z-index:100;align-items:center;justify-content:center;padding:20px}
+.cl-ov.vis{display:flex}
+.cl-box{background:var(--warm);border:1px solid var(--bd);border-radius:12px;max-width:580px;width:100%;max-height:82vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.cl-hd{background:var(--ink);color:var(--off);padding:18px 22px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.cl-hd h2{font-family:var(--sf);font-size:1.3rem;font-weight:600}
+.cl-hd button{background:none;border:none;color:#b0a0a6;font-size:1.5rem;cursor:pointer;line-height:1;padding:0;transition:color .15s}
+.cl-hd button:hover{color:#fff}
+.cl-bd{padding:22px 24px;overflow-y:auto;flex:1}
+.cl-ver{margin-bottom:24px}.cl-ver:last-child{margin-bottom:0}
+.cl-vtag{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.cl-vtag strong{font-family:var(--sf);font-size:1.05rem;font-weight:600;color:var(--ink)}
+.cl-vtag time{font-size:.71rem;color:var(--mu)}
+.cl-sec{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--rose);margin:10px 0 5px;display:block}
+.cl-ul{list-style:none}
+.cl-ul li{font-size:.8rem;color:var(--ink-m);padding:3px 0 3px 14px;position:relative;line-height:1.5}
+.cl-ul li::before{content:'→';position:absolute;left:0;color:var(--rose);font-size:.67rem;top:5px}
+.cl-meth{background:var(--rose-f);border-left:3px solid var(--rose);border-radius:0 6px 6px 0;padding:9px 12px;font-size:.78rem;color:var(--ink-m);font-style:italic;line-height:1.65;margin-top:10px}
+@media(max-width:700px){footer{padding-left:16px;padding-right:16px}}
 </style>
 </head>
 <body>
@@ -102,6 +141,7 @@ header p{font-size:.87rem;color:#b0a0a6;font-weight:300;max-width:500px;line-hei
   <button class="tb act" onclick="sw('instanties',this)">Instanties &amp; domeinen</button>
   <button class="tb" onclick="sw('rollen',this)">Individuele rollen</button>
   <button class="tb" onclick="sw('fases',this)">Tijdlijn fases</button>
+  <button class="tb" onclick="sw('netwerk',this)">Netwerk</button>
 </div></div>
 <div class="leg"><div class="leg-i">
   <span class="leg-l">Ministerie</span>
@@ -223,7 +263,74 @@ header p{font-size:.87rem;color:#b0a0a6;font-weight:300;max-width:500px;line-hei
 <div class="ig"><div class="ic"><h4>Cyclisch, niet lineair</h4><p>Mensen bewegen heen en weer, met name tussen fase 3, 4 en 5.</p></div><div class="ic"><h4>Zes systemen, één persoon</h4><p>Zorg · Werk &amp; inkomen · Veiligheid · Onderwijs · Wonen · Financiën — de inwoner bevindt zich in al deze systemen tegelijk.</p></div><div class="ic"><h4>Regie ontbreekt precies hier</h4><p>Fase 2 en fase 4: de twee cruciale interventiepunten zonder heldere regiehouder.</p></div><div class="ic"><h4>Strategische hefboom</h4><p>Één regiehouder, één integraal beeld, parallelle inzet over domeinen — niet meer hulp, maar betere coördinatie.</p></div></div>
 </div>
 
+<!-- TAB 4: NETWERK -->
+<div class="ts" id="t-netwerk">
+<div class="sh">Samenwerkingsnetwerk — wie werkt met wie?</div>
+<div class="filt" style="padding:0 0 14px;margin:0" id="gfilt">
+  <button class="fb all act" onclick="gFilter('all',this)">Alle</button>
+  <button class="fb" onclick="gFilter('vws',this)">VWS</button>
+  <button class="fb" onclick="gFilter('szw',this)">SZW</button>
+  <button class="fb" onclick="gFilter('jenv',this)">JenV</button>
+  <button class="fb" onclick="gFilter('fin',this)">Financiën</button>
+  <button class="fb" onclick="gFilter('ocw',this)">OCW</button>
+  <button class="fb" onclick="gFilter('bzk',this)">BZK</button>
+</div>
+<div id="graph-wrap"><svg id="graph-svg"></svg></div>
+<p class="gnote">Nodes geschaald op verbindingsgraad — groter = meer samenwerkingen. Slepen en zoomen werkt.</p>
+<div id="g-detail"><em style="color:var(--mu)">Klik op een node om details te zien en samenwerkingen te markeren.</em></div>
+</div>
+
 </div><!-- /main -->
+
+<footer>
+  <div class="foot-i">
+    <span class="foot-v">v1.1.0</span>
+    <button class="foot-btn" onclick="document.getElementById('cl-ov').classList.add('vis')">Wijzigingen</button>
+    <span class="foot-dot">·</span>
+    <span>Hulpinstanties Sociaal Domein &mdash; Schmuki BV</span>
+  </div>
+</footer>
+
+<div class="cl-ov" id="cl-ov" onclick="if(event.target===this)this.classList.remove('vis')">
+  <div class="cl-box">
+    <div class="cl-hd">
+      <h2>Versiegeschiedenis</h2>
+      <button onclick="document.getElementById('cl-ov').classList.remove('vis')">&times;</button>
+    </div>
+    <div class="cl-bd">
+      <div class="cl-ver">
+        <div class="cl-vtag">
+          <strong>v1.1.0</strong>
+          <span class="mt mv" style="font-size:.6rem">Nieuw</span>
+          <time>15 april 2026</time>
+        </div>
+        <span class="cl-sec">Toegevoegd</span>
+        <ul class="cl-ul">
+          <li>Netwerk-tab met interactieve force-directed graph (D3.js)</li>
+          <li>35 nodes en 57 samenwerkingsrelaties visualiseerbaar</li>
+          <li>Nodegrootte schaalt op centraliteit (verbindingsgraad)</li>
+          <li>Klik op node: markeert samenwerkingen, toont detailpanel</li>
+          <li>Filterbalk per ministerie, slepen en zoomen ondersteund</li>
+          <li>D3 lazy geladen — alleen bij eerste bezoek aan het tabblad</li>
+        </ul>
+      </div>
+      <div class="cl-ver">
+        <div class="cl-vtag">
+          <strong>v1.0.0</strong>
+          <time>15 april 2026</time>
+        </div>
+        <span class="cl-sec">Initiële release</span>
+        <ul class="cl-ul">
+          <li>Instanties &amp; domeinen — 14 kaarten per beleidsdomein</li>
+          <li>Individuele rollen — 17 kaarten, doorzoekbaar en filterbaar</li>
+          <li>Tijdlijn fases — 7-fasig model van multiproblematiek</li>
+          <li>Filterbalk per ministerie, kleurcodes legenda</li>
+        </ul>
+        <div class="cl-meth">Gebaseerd op Wmo 2015, Jeugdwet, Participatiewet en Wlz — perspectief vanuit de inwoner met multiproblematiek.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 function sw(id,btn){
@@ -232,6 +339,197 @@ function sw(id,btn){
   btn.classList.add('act');
   document.getElementById('t-'+id).classList.add('act');
   document.getElementById('fi').style.display=(id==='instanties')?'flex':'none';
+  if(id==='netwerk')initGraph();
+}
+
+// ── GRAPH DATA ──────────────────────────────────────────────────────────────
+const _MCOL={vws:'#9b2a4a',szw:'#2a5a7c',jenv:'#4a2a6a',bzk:'#2a6a4a',ocw:'#7c4a2a',fin:'#5a6a1a'};
+const _MCLS={vws:'mv',szw:'ms',jenv:'mj',bzk:'mb',ocw:'mo',fin:'mf'};
+const _MLBL={vws:'VWS',szw:'SZW',jenv:'JenV',bzk:'BZK',ocw:'OCW',fin:'Financiën'};
+
+const _GN=[
+  {id:'wmo',label:'Wmo-consulent',m:['vws'],desc:'Beoordeelt en kent maatschappelijke ondersteuning toe aan inwoners.',obs:'Poortwachter voor veel zorgvormen. Sterk afhankelijk van gemeentelijk beleid — dit verschilt per gemeente.'},
+  {id:'jeugdcons',label:'Jeugdconsulent',m:['vws','jenv'],desc:'Beoordeelt behoefte aan jeugdhulp en regelt toegang voor kinderen en gezinnen.',obs:'Toegangspoort tot het jeugdstelsel. Kwaliteit van beoordeling bepaalt sterk welke hulp een kind krijgt.'},
+  {id:'huisarts',label:'Huisarts',m:['vws'],desc:'Eerste aanspreekpunt voor gezondheidsklachten én poortwachter naar vrijwel alle andere domeinen.',obs:'Spil van het stelsel maar sterk onder druk. Soms de enige partij die het totaalplaatje ziet.'},
+  {id:'ambulant',label:'Ambulant begeleider',m:['vws'],desc:'Begeleidt mensen thuis bij dagelijks functioneren en zelfredzaamheid.',obs:'Vaak de enige professional die daadwerkelijk achter de voordeur komt.'},
+  {id:'casemanager',label:'Casemanager',m:['vws','szw'],desc:'Coördineert alle lopende hulptrajecten bij complexe multiproblematiek.',obs:'Cruciaal maar vaak onduidelijk belegd — iedereen verwijst, niemand regisseert.'},
+  {id:'schuldhulp',label:'Schuldhulpverlener',m:['szw','fin'],desc:'Begeleidt bij oplossen schulden en herstellen van financiële stabiliteit.',obs:'Schulden zijn tegelijk trigger én belemmering voor herstel.'},
+  {id:'klantmanager',label:'Klantmanager gemeente',m:['szw'],desc:'Begeleidt inwoners met bijstand naar werk of participatie.',obs:'Dubbele rol: ondersteuner én handhaver. Die spanning beïnvloedt de vertrouwensrelatie.'},
+  {id:'werkcoach',label:'Werkcoach (UWV)',m:['szw'],desc:'Begeleidt werkloze of arbeidsongeschikte mensen bij terugkeer naar de arbeidsmarkt.'},
+  {id:'jeugdbesch',label:'Jeugdbeschermer (GI)',m:['jenv','vws'],desc:'Voert jeugdbeschermingsmaatregelen uit namens de gecertificeerde instelling.',obs:'Combinatie van zorg en dwang maakt de rol complex — voor het gezin én de professional.'},
+  {id:'veiligthuis',label:'Veilig Thuis',m:['vws','jenv'],desc:'Adviseert en onderzoekt bij vermoedens van huiselijk geweld of kindermishandeling.',obs:'Frontlinie in onveilige situaties. Hoge werkdruk en complexe casuïstiek.'},
+  {id:'verzarts',label:'Verzekeringsarts (UWV)',m:['szw'],desc:'Beoordeelt medische beperkingen in relatie tot arbeidsvermogen.',obs:'Lange wachttijden zijn een structureel probleem.'},
+  {id:'pohggz',label:'POH-GGZ',m:['vws'],desc:'Praktijkondersteuner GGZ bij de huisarts — brug tussen eerste en tweede lijn.',obs:'Waardevolle schakel, maar bij multiproblematiek onvoldoende.'},
+  {id:'clientond',label:'Cliëntondersteuner',m:['vws'],desc:'Ondersteunt de inwoner bij het navigeren door het systeem, volledig onafhankelijk.',obs:'Wettelijk recht voor elke burger — maar nauwelijks bekend.'},
+  {id:'bewindv',label:'Bewindvoerder',m:['fin','szw'],desc:'Beheert financiën van iemand die dat zelf niet kan — aangesteld door de kantonrechter.',obs:'Soms zinvol vangnet, soms afhankelijkheid die zelfredzaamheid ondermijnt.'},
+  {id:'iber',label:"Intern begeleider (IB'er)",m:['ocw'],desc:'Coördineert zorg en begeleiding voor leerlingen die extra ondersteuning nodig hebben.',obs:'Schakel die zorg binnen en buiten school verbindt. School als vroegsignaleringssysteem begint hier.'},
+  {id:'reclas',label:'Reclasseringsmedewerker',m:['jenv'],desc:'Begeleidt ex-gedetineerden bij re-integratie en voert toezicht uit namens de rechter.'},
+  {id:'raadslieden',label:'Sociaal raadslieden',m:['szw','fin'],desc:'Bieden gratis juridisch advies over sociale zekerheid, belastingen en huur.'},
+  {id:'ggzbehand',label:'GGZ-behandelaar',m:['vws'],desc:'Diagnostiek en behandeling van psychische problematiek. Wachttijden zijn een structureel bottleneck.'},
+  {id:'ggd',label:'GGD',m:['vws'],desc:'Publieke gezondheidsorganisatie — signalering, onderzoek en toezicht.'},
+  {id:'politie',label:'Politie',m:['jenv'],desc:'Handhaving en signalering bij veiligheidsincidenten in de wijk.'},
+  {id:'veilhuis',label:'Veiligheidshuis',m:['jenv'],desc:'Samenwerkingsverband voor zorg én veiligheid bij complexe en overlappende problematiek.'},
+  {id:'woningcorp',label:'Woningcorporatie',m:['bzk'],desc:'Zorgt voor stabiele woonbasis, begeleid wonen en preventie van huisuitzetting.'},
+  {id:'ciz',label:'CIZ',m:['vws'],desc:'Indicatiestelling voor de Wet langdurige zorg (Wlz).'},
+  {id:'kinderrecht',label:'Kinderrechter',m:['jenv'],desc:'Beslist over jeugdbeschermingsmaatregelen zoals OTS of voogdij.'},
+  {id:'raadkb',label:'Raad v/d Kinderbescherming',m:['jenv'],desc:'Adviseert de rechter en onderzoekt ernstige veiligheidssituaties rondom kinderen.'},
+  {id:'belasting',label:'Belastingdienst',m:['fin'],desc:'Belastingen, toeslagen en terugvorderingen — directe invloed op financiële stabiliteit van gezinnen.'},
+  {id:'uwv',label:'UWV',m:['szw'],desc:'Voert werknemersverzekeringen uit: WW, WIA en Ziektewet.'},
+  {id:'kredietbank',label:'Kredietbank',m:['fin'],desc:'Verstrekt sociale kredieten en begeleidt schuldenregelingen.'},
+  {id:'jobcoach',label:'Jobcoach',m:['szw'],desc:'Begeleidt mensen met afstand tot de arbeidsmarkt bij vinden en behouden van werk.'},
+  {id:'wgs',label:'Werkgeversservicepunt',m:['szw'],desc:'Verbindt werkgevers met mensen met een afstand tot de arbeidsmarkt.'},
+  {id:'bedrijfsarts',label:'Bedrijfsarts',m:['vws'],desc:'Adviseert werknemer en werkgever bij ziekte en re-integratie.'},
+  {id:'kantonrecht',label:'Kantonrechter',m:['jenv'],desc:'Stelt beschermingsbewind in en toetst jaarlijks het financieel beheer.'},
+  {id:'smw',label:'Schoolmaatschappelijk werk',m:['ocw'],desc:'Begeleidt leerlingen en gezinnen bij problemen die het onderwijs beïnvloeden.'},
+  {id:'leerplicht',label:'Leerplichtambtenaar',m:['ocw'],desc:'Handhaaft de leerplicht en begeleidt bij schoolverzuim.'},
+  {id:'jeugdarts',label:'Jeugdarts (JGZ)',m:['vws'],desc:'Volgt gezondheid en ontwikkeling van kinderen preventief via de jeugdgezondheidszorg.'},
+];
+
+const _GL=[
+  // Wmo-consulent
+  {source:'wmo',target:'huisarts'},{source:'wmo',target:'ciz'},{source:'wmo',target:'ambulant'},
+  {source:'wmo',target:'ggzbehand'},{source:'wmo',target:'clientond'},
+  // Jeugdconsulent
+  {source:'jeugdcons',target:'huisarts'},{source:'jeugdcons',target:'jeugdarts'},
+  {source:'jeugdcons',target:'veiligthuis'},{source:'jeugdcons',target:'iber'},{source:'jeugdcons',target:'jeugdbesch'},
+  // Huisarts
+  {source:'huisarts',target:'pohggz'},{source:'huisarts',target:'ggzbehand'},
+  {source:'huisarts',target:'jeugdarts'},{source:'huisarts',target:'veiligthuis'},
+  // Ambulant begeleider
+  {source:'ambulant',target:'ggzbehand'},{source:'ambulant',target:'casemanager'},
+  {source:'ambulant',target:'schuldhulp'},{source:'ambulant',target:'woningcorp'},{source:'ambulant',target:'bewindv'},
+  // Casemanager
+  {source:'casemanager',target:'wmo'},{source:'casemanager',target:'ggzbehand'},
+  {source:'casemanager',target:'schuldhulp'},{source:'casemanager',target:'woningcorp'},{source:'casemanager',target:'klantmanager'},
+  // Schuldhulpverlener
+  {source:'schuldhulp',target:'bewindv'},{source:'schuldhulp',target:'kredietbank'},
+  {source:'schuldhulp',target:'belasting'},{source:'schuldhulp',target:'uwv'},{source:'schuldhulp',target:'klantmanager'},
+  // Klantmanager gemeente
+  {source:'klantmanager',target:'werkcoach'},{source:'klantmanager',target:'jobcoach'},{source:'klantmanager',target:'wgs'},
+  // Werkcoach UWV
+  {source:'werkcoach',target:'verzarts'},{source:'werkcoach',target:'bedrijfsarts'},{source:'werkcoach',target:'wgs'},
+  // Jeugdbeschermer
+  {source:'jeugdbesch',target:'kinderrecht'},{source:'jeugdbesch',target:'raadkb'},{source:'jeugdbesch',target:'veiligthuis'},
+  // Veilig Thuis
+  {source:'veiligthuis',target:'politie'},{source:'veiligthuis',target:'ggd'},{source:'veiligthuis',target:'raadkb'},
+  // Verzekeringsarts
+  {source:'verzarts',target:'bedrijfsarts'},{source:'verzarts',target:'ggzbehand'},
+  // POH-GGZ
+  {source:'pohggz',target:'ggzbehand'},
+  // Cliëntondersteuner
+  {source:'clientond',target:'jeugdcons'},{source:'clientond',target:'ciz'},
+  // Bewindvoerder
+  {source:'bewindv',target:'kantonrecht'},{source:'bewindv',target:'belasting'},
+  // IB'er
+  {source:'iber',target:'jeugdarts'},{source:'iber',target:'smw'},{source:'iber',target:'leerplicht'},
+  // Reclassering
+  {source:'reclas',target:'veilhuis'},{source:'reclas',target:'politie'},
+  {source:'reclas',target:'ggzbehand'},{source:'reclas',target:'schuldhulp'},{source:'reclas',target:'woningcorp'},
+  // Sociaal raadslieden
+  {source:'raadslieden',target:'schuldhulp'},{source:'raadslieden',target:'klantmanager'},
+  {source:'raadslieden',target:'belasting'},{source:'raadslieden',target:'clientond'},
+];
+
+// ── GRAPH ENGINE ─────────────────────────────────────────────────────────────
+let _gsim=null,_glink=null,_gnode=null,_gloaded=false,_gbuilt=false;
+
+function initGraph(){
+  if(_gbuilt)return;
+  if(typeof d3!=='undefined'){buildGraph();return;}
+  if(_gloaded)return;
+  _gloaded=true;
+  const s=document.createElement('script');
+  s.src='https://d3js.org/d3.v7.min.js';
+  s.onload=buildGraph;
+  document.head.appendChild(s);
+}
+
+function buildGraph(){
+  if(_gbuilt)return;
+  _gbuilt=true;
+  const wrap=document.getElementById('graph-wrap');
+  const W=wrap.clientWidth,H=wrap.clientHeight;
+  const nodes=_GN.map(d=>({...d}));
+  const links=_GL.map(d=>({...d}));
+  const deg={};
+  nodes.forEach(n=>deg[n.id]=0);
+  links.forEach(l=>{deg[l.source]=(deg[l.source]||0)+1;deg[l.target]=(deg[l.target]||0)+1;});
+  const maxDeg=Math.max(...Object.values(deg));
+  const rSc=d3.scaleSqrt().domain([0,maxDeg]).range([5,20]);
+  const svg=d3.select('#graph-svg');
+  const defs=svg.append('defs');
+  defs.append('filter').attr('id','nd-glow')
+    .html('<feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>');
+  const g=svg.append('g');
+  svg.call(d3.zoom().scaleExtent([0.25,4]).on('zoom',e=>g.attr('transform',e.transform)));
+  _glink=g.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke','rgba(255,255,255,.14)').attr('stroke-width',1.5);
+  _gnode=g.append('g').selectAll('g').data(nodes).join('g').style('cursor','pointer')
+    .call(d3.drag()
+      .on('start',(e,d)=>{if(!e.active)_gsim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;})
+      .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;})
+      .on('end',(e,d)=>{if(!e.active)_gsim.alphaTarget(0);d.fx=null;d.fy=null;}))
+    .on('click',(e,d)=>{e.stopPropagation();selectGNode(d);});
+  _gnode.append('circle')
+    .attr('r',d=>rSc(deg[d.id]||1))
+    .attr('fill',d=>_MCOL[d.m[0]]||'#666')
+    .attr('stroke','rgba(255,255,255,.28)').attr('stroke-width',1.5)
+    .attr('filter','url(#nd-glow)');
+  _gnode.append('text')
+    .text(d=>d.label)
+    .attr('font-family','DM Sans,system-ui,sans-serif').attr('font-size','10px')
+    .attr('fill','rgba(255,255,255,.82)').attr('text-anchor','middle')
+    .attr('dy',d=>rSc(deg[d.id]||1)+12)
+    .style('pointer-events','none').style('user-select','none');
+  svg.on('click',()=>resetGHighlight());
+  _gsim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(links).id(d=>d.id).distance(95))
+    .force('charge',d3.forceManyBody().strength(-230))
+    .force('center',d3.forceCenter(W/2,H/2))
+    .force('collide',d3.forceCollide(d=>rSc(deg[d.id]||1)+8));
+  _gsim.on('tick',()=>{
+    _glink.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+          .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    _gnode.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+}
+
+function selectGNode(d){
+  const conn=new Set();
+  _glink.each(l=>{if(l.source.id===d.id)conn.add(l.target.id);if(l.target.id===d.id)conn.add(l.source.id);});
+  _gnode.each(function(n){d3.select(this).attr('opacity',n.id===d.id||conn.has(n.id)?1:.1);});
+  _glink.each(function(l){
+    const on=l.source.id===d.id||l.target.id===d.id;
+    d3.select(this).attr('opacity',on?.9:.04).attr('stroke',on?'#c04070':'rgba(255,255,255,.14)');
+  });
+  const badges=d.m.map(m=>`<span class="mt ${_MCLS[m]||''}">${_MLBL[m]||m}</span>`).join('');
+  const names=[...conn].map(id=>_GN.find(n=>n.id===id)?.label||id);
+  document.getElementById('g-detail').innerHTML=`
+    <h3>${d.label}</h3>
+    <div class="gbadges">${badges}</div>
+    ${d.desc?`<p class="gdesc">${d.desc}</p>`:''}
+    <span class="gcl">Werkt samen met</span>
+    <div class="gclist">${names.map(n=>`<span class="rc">${n}</span>`).join('')}</div>
+    ${d.obs?`<div class="gobs">${d.obs}</div>`:''}
+  `;
+}
+
+function resetGHighlight(){
+  if(!_gnode)return;
+  _gnode.attr('opacity',1);
+  _glink.attr('opacity',1).attr('stroke','rgba(255,255,255,.14)');
+  document.getElementById('g-detail').innerHTML='<em style="color:var(--mu)">Klik op een node om details te zien en samenwerkingen te markeren.</em>';
+}
+
+function gFilter(m,btn){
+  document.querySelectorAll('#gfilt .fb').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  if(!_gnode)return;
+  _gnode.each(function(d){d3.select(this).attr('opacity',m==='all'||d.m.includes(m)?1:.07);});
+  _glink.each(function(l){
+    const sv=m==='all'||l.source.m?.includes(m),tv=m==='all'||l.target.m?.includes(m);
+    d3.select(this).attr('opacity',sv&&tv?.7:.04);
+  });
 }
 function tc(c){c.classList.toggle('op')}
 let ap=null;
