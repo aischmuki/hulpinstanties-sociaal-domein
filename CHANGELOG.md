@@ -6,6 +6,14 @@ Versienummering via [Semantic Versioning](https://semver.org/lang/nl/).
 
 ---
 
+## [1.1.1] — 2026-04-22
+
+### Toegevoegd
+- **LICENSE** — auteursrechtelijk beschermd onder Creative Commons BY-NC-ND 4.0
+- **Copyright in footer** — © 2025 Schmuki BV met klikbare link naar de licentietekst
+
+---
+
 ## [1.1.0] — 2026-04-15
 
 ### Toegevoegd
